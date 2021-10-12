@@ -1,0 +1,12 @@
+{
+  "name": "code-reactions-assignment",
+  "version": "1.0.0",
+  "author": "JatinBumbra",
+  "license": "MIT",
+  "private": true,
+  "workspaces": {
+    "packages": [
+      "./*"
+    ]
+  }
+}
