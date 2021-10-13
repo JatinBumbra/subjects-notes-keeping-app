@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "4321825490",
+    "project_id": "subjectnoteskeeper",
+    "storage_bucket": "subjectnoteskeeper.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:4321825490:android:9836356889031ec95b930b",
+        "android_client_info": {
+          "package_name": "com.jatinbumbra.noteskeeper"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "4321825490-059nvvl5f37qmoh2n69gjrabng1b0dde.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCSV8j3wWIayNJx9P_TOX8j36haub0pzOE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "4321825490-059nvvl5f37qmoh2n69gjrabng1b0dde.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
