@@ -1,12 +1,18 @@
-import React from 'react';
+import React, {useState} from 'react';
+// Components
 import ScreenLayout from '../components/ScreenLayout';
-import SubjectTopicCard from '../../shared/components/SubjectTopicCard';
+// import NoteCard from '../../shared/components/NoteCard';
 
 const NotesScreen = () => {
+  const [searchInput, setSearchInput] = useState('');
+
   return (
-    <View>
-      <Text>Notes Screen</Text>
-    </View>
+    <ScreenLayout
+      headerTitle="Notes"
+      searchInput={searchInput}
+      setSearchInput={setSearchInput}
+      searchInputPlaceholder="Search for a note"
+    />
   );
 };
 
