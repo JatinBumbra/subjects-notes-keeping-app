@@ -11,7 +11,9 @@ const title = css`
   font-size: 16px;
   color: black;
 `;
-const note = css``;
+const note = css`
+  color: black;
+`;
 
 const noteCardStyles = Object.freeze({
   wrapper,

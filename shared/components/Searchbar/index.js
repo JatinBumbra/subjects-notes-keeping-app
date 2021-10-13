@@ -8,6 +8,7 @@ const Searchbar = ({ searchInput, setSearchInput, searchInputPlaceholder }) => {
         value={searchInput}
         onChangeText={setSearchInput}
         placeholder={searchInputPlaceholder}
+        placeholderTextColor={'rgba(0,0,0,0.4)'}
       />
     </InputWrapper>
   );

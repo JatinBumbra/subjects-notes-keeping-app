@@ -19,4 +19,6 @@ const Wrapper = styled.View`
 const Title = styled.Text`
   ${noteCardStyles.title}
 `;
-const Note = styled.Text``;
+const Note = styled.Text`
+  ${noteCardStyles.note}
+`;

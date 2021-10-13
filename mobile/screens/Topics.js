@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 // Components
 import ScreenLayout from '../components/ScreenLayout';
 import SubjectTopicCard from '../../shared/components/SubjectTopicCard';
@@ -6,8 +6,12 @@ import AddItemModal from '../components/AddItemModal';
 import Input from '../../shared/components/Input';
 // Constants
 import routes from '../../shared/constants/routes';
+// Context
+import {AppContext} from '../../shared/state';
 
 const TopicsScreen = ({navigation}) => {
+  const {subjects} = useContext(AppContext);
+  // State variables
   const [searchInput, setSearchInput] = useState('');
   const [addModalVisible, setAddModalVisible] = useState(false);
   const [addTopicInput, setAddTopicInput] = useState('');
@@ -23,8 +27,9 @@ const TopicsScreen = ({navigation}) => {
     },
   ];
 
+  console.log('Topics screen', subjects);
+
   const handleCardPress = item => {
-    console.log(item);
     navigation.navigate(routes.Notes);
   };
 
@@ -38,7 +43,7 @@ const TopicsScreen = ({navigation}) => {
 
   return (
     <ScreenLayout
-      headerTitle="Topics"
+      headerTitle={subjects.current.name}
       searchInput={searchInput}
       setSearchInput={setSearchInput}
       searchInputPlaceholder="Search for a topic"

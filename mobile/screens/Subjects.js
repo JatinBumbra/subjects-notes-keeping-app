@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 // Components
 import ScreenLayout from '../components/ScreenLayout';
 import SubjectTopicCard from '../../shared/components/SubjectTopicCard';
@@ -6,31 +6,29 @@ import AddItemModal from '../components/AddItemModal';
 import Input from '../../shared/components/Input';
 // Constants
 import routes from '../../shared/constants/routes';
+// Context
+import {AppContext} from '../../shared/state';
 
 const SubjectsScreen = ({navigation}) => {
+  const {subjects} = useContext(AppContext);
+
   const [searchInput, setSearchInput] = useState('');
   const [addModalVisible, setAddModalVisible] = useState(false);
   const [addSubjectInput, setAddSubjectInput] = useState('');
 
-  const DATA = [
-    {
-      name: 'Computer Science',
-      id: 'computerscience',
-    },
-    {
-      name: 'Maths',
-      id: 'maths',
-    },
-  ];
-
   const handleCardPress = item => {
-    console.log(item);
+    subjects.setCurrent(item);
     navigation.navigate(routes.Topics);
   };
 
   const handleAddButtonPress = () => setAddModalVisible(true);
 
-  const handleAddConfirm = () => handleAddCancel();
+  const handleAddConfirm = () => {
+    subjects.create({
+      name: addSubjectInput,
+    });
+    handleAddCancel();
+  };
   const handleAddCancel = () => {
     setAddModalVisible(false);
     setAddSubjectInput('');
@@ -42,7 +40,7 @@ const SubjectsScreen = ({navigation}) => {
       searchInput={searchInput}
       setSearchInput={setSearchInput}
       searchInputPlaceholder="Search for a subject"
-      renderData={DATA}
+      renderData={subjects.data}
       renderComponent={props => (
         <SubjectTopicCard
           {...props}
@@ -50,7 +48,8 @@ const SubjectsScreen = ({navigation}) => {
         />
       )}
       addButtonLabel="Add Subject"
-      addButtonOnPress={handleAddButtonPress}>
+      addButtonOnPress={handleAddButtonPress}
+      noDataText='Click "Add Subject" button to add your first subject'>
       <AddItemModal
         visible={addModalVisible}
         title="Add New Subject"

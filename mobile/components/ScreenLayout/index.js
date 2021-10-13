@@ -14,6 +14,7 @@ const ScreenLayout = ({
   children,
   addButtonLabel,
   addButtonOnPress,
+  noDataText,
 }) => {
   return (
     <Wrapper>
@@ -23,11 +24,17 @@ const ScreenLayout = ({
         setSearchInput={setSearchInput}
         searchInputPlaceholder={searchInputPlaceholder}
       />
-      <DataList
-        data={renderData}
-        renderItem={renderComponent}
-        keyExtractor={item => item.id}
-      />
+      {renderData && renderData?.length ? (
+        <DataList
+          data={renderData}
+          renderItem={renderComponent}
+          keyExtractor={item => item.id}
+        />
+      ) : (
+        <NoDataWrapper>
+          <NoDataText>{noDataText}</NoDataText>
+        </NoDataWrapper>
+      )}
       {children}
       <AddButtonWrapper>
         <Button label={addButtonLabel} onPress={addButtonOnPress} />
@@ -42,6 +49,15 @@ const Wrapper = styled.View`
   flex: 1;
 `;
 const DataList = styled.FlatList``;
+const NoDataWrapper = styled.View`
+  margin: 5%;
+`;
+const NoDataText = styled.Text`
+  font-size: 16px;
+  font-weight: bold;
+  color: black;
+  text-align: center;
+`;
 const AddButtonWrapper = styled.View`
   position: absolute;
   right: 16px;

@@ -5,6 +5,7 @@ const wrapper = css`
 `;
 const label = css`
   margin: 4px 8px;
+  color: black;
 `;
 const textinput = css`
   padding: 8px 16px;
@@ -13,6 +14,7 @@ const textinput = css`
   border-color: rgba(0, 0, 0, 0.2);
   border-style: solid;
   border-radius: 999px;
+  color: black;
 `;
 const error = css`
   ${label}

@@ -43,6 +43,7 @@ const ContentWrapper = styled.View`
 const ModalTitle = styled.Text`
   font-size: 18px;
   font-weight: bold;
+  color: black;
 `;
 const InputWrapper = styled.View`
   margin: 5% 0;
@@ -54,4 +55,5 @@ const CancelText = styled.Text`
   text-align: center;
   font-weight: bold;
   font-size: 16px;
+  color: black;
 `;
