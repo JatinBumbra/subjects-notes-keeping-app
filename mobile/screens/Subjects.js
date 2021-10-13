@@ -3,7 +3,7 @@ import React, {useState} from 'react';
 import ScreenLayout from '../components/ScreenLayout';
 import SubjectTopicCard from '../../shared/components/SubjectTopicCard';
 import AddItemModal from '../components/AddItemModal';
-import Input from '../../shared/components/Input/input.index';
+import Input from '../../shared/components/Input';
 // Constants
 import routes from '../../shared/constants/routes';
 
@@ -27,6 +27,7 @@ const SubjectsScreen = ({navigation}) => {
     console.log(item);
     navigation.navigate(routes.Topics);
   };
+
   const handleAddButtonPress = () => setAddModalVisible(true);
 
   const handleAddConfirm = () => handleAddCancel();
@@ -56,9 +57,9 @@ const SubjectsScreen = ({navigation}) => {
         handleCancel={handleAddCancel}
         handleSave={handleAddConfirm}>
         <Input
+          label="Subject Name"
           value={addSubjectInput}
           onChangeText={setAddSubjectInput}
-          placehodler="Enter Subject Name"
         />
       </AddItemModal>
     </ScreenLayout>

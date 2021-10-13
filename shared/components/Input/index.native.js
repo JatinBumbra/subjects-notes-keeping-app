@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components/native';
+import inputStyles from './styles';
 
 const Input = ({ label, value, onChangeText, placehodler, error }) => {
   return (
@@ -17,14 +18,15 @@ const Input = ({ label, value, onChangeText, placehodler, error }) => {
 
 export default Input;
 
-const Wrapper = styled.View``;
-const Label = styled.Text``;
-const TextInput = styled.TextInput`
-  padding: 8px 16px;
-  font-size: 16px;
-  border-width: 1px;
-  border-color: rgba(0, 0, 0, 0.2);
-  border-style: solid;
-  border-radius: 999px;
+const Wrapper = styled.View`
+  ${inputStyles.wrapper}
 `;
-const Error = styled.Text``;
+const Label = styled.Text`
+  ${inputStyles.label}
+`;
+const TextInput = styled.TextInput`
+  ${inputStyles.textinput}
+`;
+const Error = styled.Text`
+  ${inputStyles.error}
+`;
