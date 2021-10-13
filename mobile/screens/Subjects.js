@@ -15,24 +15,52 @@ const SubjectsScreen = ({navigation}) => {
   const [searchInput, setSearchInput] = useState('');
   const [addModalVisible, setAddModalVisible] = useState(false);
   const [addSubjectInput, setAddSubjectInput] = useState('');
+  const [selectedForEdit, setSelectedForEdit] = useState();
 
   const handleCardPress = item => {
     subjects.setCurrent(item);
     navigation.navigate(routes.Topics);
   };
 
-  const handleAddButtonPress = () => setAddModalVisible(true);
+  const handleAddButtonPress = () => {
+    setSelectedForEdit();
+    setAddModalVisible(true);
+  };
 
   const handleAddConfirm = () => {
-    subjects.create({
-      name: addSubjectInput,
-    });
+    selectedForEdit
+      ? subjects.update({
+          id: selectedForEdit.id,
+          name: addSubjectInput,
+        })
+      : subjects.create({
+          name: addSubjectInput,
+        });
     handleAddCancel();
   };
   const handleAddCancel = () => {
     setAddModalVisible(false);
     setAddSubjectInput('');
   };
+
+  const handleDelete = item => {
+    subjects.delete(item);
+  };
+  const handleEdit = item => {
+    setSelectedForEdit(item);
+    setAddModalVisible(true);
+    setAddSubjectInput(item.name);
+  };
+  const actionMenuOptions = [
+    {
+      label: 'Edit',
+      onPress: handleEdit,
+    },
+    {
+      label: 'Delete',
+      onPress: handleDelete,
+    },
+  ];
 
   return (
     <ScreenLayout
@@ -44,6 +72,7 @@ const SubjectsScreen = ({navigation}) => {
       renderComponent={props => (
         <SubjectTopicCard
           {...props}
+          actionMenuOptions={actionMenuOptions}
           onPress={() => handleCardPress(props.item)}
         />
       )}
@@ -52,7 +81,7 @@ const SubjectsScreen = ({navigation}) => {
       noDataText='Click "Add Subject" button to add your first subject'>
       <AddItemModal
         visible={addModalVisible}
-        title="Add New Subject"
+        title={`${selectedForEdit ? 'Edit' : 'Add New'} Subject`}
         handleCancel={handleAddCancel}
         handleSave={handleAddConfirm}>
         <Input
