@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { nanoid } from 'nanoid';
 
-const useSubjects = ({ db }) => {
+const useTopics = ({ db }) => {
   const [current, setCurrent] = useState();
   const [data, setData] = useState();
 
@@ -33,4 +33,4 @@ const useSubjects = ({ db }) => {
   };
 };
 
-export default useSubjects;
+export default useTopics;

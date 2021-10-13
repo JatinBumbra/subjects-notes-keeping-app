@@ -1,61 +1,103 @@
-import React, {useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 // Components
 import ScreenLayout from '../components/ScreenLayout';
 import NoteCard from '../../shared/components/NoteCard';
 import AddItemModal from '../components/AddItemModal';
 import Input from '../../shared/components/Input';
+// Context
+import {AppContext} from '../../shared/state';
 
 const NotesScreen = () => {
+  const {subjects, topics, notes} = useContext(AppContext);
+  // State variables
   const [searchInput, setSearchInput] = useState('');
   const [addModalVisible, setAddModalVisible] = useState(false);
-  const [addTopicTitleInput, setAddTopicTitleInput] = useState('');
-  const [addTopicNoteInput, setAddTopicNoteInput] = useState('');
+  const [addNoteTitleInput, setAddNoteTitleInput] = useState('');
+  const [addNoteNoteInput, setAddNoteNoteInput] = useState('');
+  const [dataToRender, setDataToRender] = useState();
+  const [selectedForEdit, setSelectedForEdit] = useState();
 
-  const DATA = [
+  useEffect(() => {
+    topics.current &&
+      notes.data &&
+      setDataToRender(
+        notes.data.filter(item => item.topicId === topics.current.id),
+      );
+  }, [topics.current, notes.data]);
+
+  const handleAddButtonPress = () => {
+    setSelectedForEdit();
+    setAddModalVisible(true);
+  };
+
+  const handleAddConfirm = () => {
+    selectedForEdit
+      ? notes.update({
+          ...selectedForEdit,
+          title: addNoteTitleInput,
+          note: addNoteNoteInput,
+        })
+      : notes.create({
+          title: addNoteTitleInput,
+          note: addNoteNoteInput,
+          subjectId: subjects.current.id,
+          topicId: topics.current.id,
+        });
+    handleAddCancel();
+  };
+  const handleAddCancel = () => {
+    setAddModalVisible(false);
+    setAddNoteNoteInput('');
+    setAddNoteTitleInput('');
+  };
+
+  const handleDelete = item => {
+    notes.delete(item);
+  };
+  const handleEdit = item => {
+    setSelectedForEdit(item);
+    setAddModalVisible(true);
+    setAddNoteNoteInput(item.note);
+    setAddNoteTitleInput(item.title);
+  };
+  const actionMenuOptions = [
     {
-      title: 'Note Title 1',
-      note: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Distinctio, incidunt.',
-      id: 'Note-Title-1',
+      label: 'Edit',
+      onPress: handleEdit,
     },
     {
-      title: 'Note Title 2',
-      note: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Distinctio, incidunt.',
-      id: 'Note-Title-2',
+      label: 'Delete',
+      onPress: handleDelete,
     },
   ];
 
-  const handleAddButtonPress = () => setAddModalVisible(true);
-
-  const handleAddConfirm = () => handleAddCancel();
-  const handleAddCancel = () => {
-    setAddModalVisible(false);
-    setAddTopicTitleInput('');
-  };
-
   return (
     <ScreenLayout
-      headerTitle="Notes"
+      headerTitle={`${subjects.current.name} > ${topics.current.name}`}
       searchInput={searchInput}
       setSearchInput={setSearchInput}
       searchInputPlaceholder="Search for a note"
-      renderData={DATA}
-      renderComponent={props => <NoteCard {...props} />}
+      renderData={dataToRender}
+      renderComponent={props => (
+        <NoteCard {...props} actionMenuOptions={actionMenuOptions} />
+      )}
       addButtonLabel="Add Note"
-      addButtonOnPress={handleAddButtonPress}>
+      addButtonOnPress={handleAddButtonPress}
+      noDataText='Click "Add Note" button to add your first note to the topic'>
       <AddItemModal
         visible={addModalVisible}
-        title="Add New Note"
+        title={`${selectedForEdit ? 'Edit' : 'Add New'} Note`}
         handleCancel={handleAddCancel}
         handleSave={handleAddConfirm}>
         <Input
           label="Title"
-          value={addTopicTitleInput}
-          onChangeText={setAddTopicTitleInput}
+          value={addNoteTitleInput}
+          onChangeText={setAddNoteTitleInput}
         />
         <Input
           label="Note"
-          value={addTopicNoteInput}
-          onChangeText={setAddTopicNoteInput}
+          value={addNoteNoteInput}
+          onChangeText={setAddNoteNoteInput}
         />
       </AddItemModal>
     </ScreenLayout>
