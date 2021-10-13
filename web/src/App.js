@@ -1,7 +1,8 @@
-import Button from '../../shared/components/Button';
+import Header from '../../shared/components/Header';
+import Searchbar from '../../shared/components/Searchbar';
 
 function App() {
-  return <Button />;
+  return <div></div>;
 }
 
 export default App;

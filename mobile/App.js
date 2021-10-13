@@ -1,8 +1,8 @@
 import React from 'react';
-import Button from '../shared/components/Button';
+import Screens from './screens';
 
 const App = () => {
-  return <Button />;
+  return <Screens />;
 };
 
 export default App;
