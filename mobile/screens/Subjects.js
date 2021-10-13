@@ -10,7 +10,7 @@ import routes from '../../shared/constants/routes';
 import {AppContext} from '../../shared/state';
 
 const SubjectsScreen = ({navigation}) => {
-  const {subjects} = useContext(AppContext);
+  const Context = useContext(AppContext);
 
   const [searchInput, setSearchInput] = useState('');
   const [addModalVisible, setAddModalVisible] = useState(false);
@@ -18,7 +18,7 @@ const SubjectsScreen = ({navigation}) => {
   const [selectedForEdit, setSelectedForEdit] = useState();
 
   const handleCardPress = item => {
-    subjects.setCurrent(item);
+    Context.setSelectedSubject(item);
     navigation.navigate(routes.Topics);
   };
 
@@ -29,11 +29,11 @@ const SubjectsScreen = ({navigation}) => {
 
   const handleAddConfirm = () => {
     selectedForEdit
-      ? subjects.update({
+      ? Context.updateSubject({
           id: selectedForEdit.id,
           name: addSubjectInput,
         })
-      : subjects.create({
+      : Context.addSubject({
           name: addSubjectInput,
         });
     handleAddCancel();
@@ -44,7 +44,7 @@ const SubjectsScreen = ({navigation}) => {
   };
 
   const handleDelete = item => {
-    subjects.delete(item);
+    Context.deleteSubject(item);
   };
   const handleEdit = item => {
     setSelectedForEdit(item);
@@ -68,7 +68,7 @@ const SubjectsScreen = ({navigation}) => {
       searchInput={searchInput}
       setSearchInput={setSearchInput}
       searchInputPlaceholder="Search for a subject"
-      renderData={subjects.data}
+      renderData={Context.data?.subjects}
       renderComponent={props => (
         <SubjectTopicCard
           {...props}

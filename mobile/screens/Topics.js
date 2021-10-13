@@ -10,7 +10,7 @@ import routes from '../../shared/constants/routes';
 import {AppContext} from '../../shared/state';
 
 const TopicsScreen = ({navigation}) => {
-  const {subjects, topics} = useContext(AppContext);
+  const Context = useContext(AppContext);
   // State variables
   const [searchInput, setSearchInput] = useState('');
   const [addModalVisible, setAddModalVisible] = useState(false);
@@ -19,15 +19,16 @@ const TopicsScreen = ({navigation}) => {
   const [selectedForEdit, setSelectedForEdit] = useState();
 
   useEffect(() => {
-    subjects.current &&
-      topics.data &&
+    Context.selected.subject &&
       setDataToRender(
-        topics.data.filter(item => item.subjectId === subjects.current.id),
+        Context.data.topics.filter(
+          item => item.subjectId === Context.selected.subject.id,
+        ),
       );
-  }, [subjects.current, topics.data]);
+  }, [Context.data.topics, Context.selected]);
 
   const handleCardPress = item => {
-    topics.setCurrent(item);
+    Context.setSelectedTopic(item);
     navigation.navigate(routes.Notes);
   };
 
@@ -38,13 +39,13 @@ const TopicsScreen = ({navigation}) => {
 
   const handleAddConfirm = () => {
     selectedForEdit
-      ? topics.update({
+      ? Context.updateTopic({
           ...selectedForEdit,
           name: addTopicInput,
         })
-      : topics.create({
+      : Context.addTopic({
           name: addTopicInput,
-          subjectId: subjects.current.id,
+          subjectId: Context.selected.subject.id,
         });
     handleAddCancel();
   };
@@ -54,7 +55,7 @@ const TopicsScreen = ({navigation}) => {
   };
 
   const handleDelete = item => {
-    topics.delete(item);
+    Context.deleteTopic(item);
   };
   const handleEdit = item => {
     setSelectedForEdit(item);
@@ -74,7 +75,7 @@ const TopicsScreen = ({navigation}) => {
 
   return (
     <ScreenLayout
-      headerTitle={subjects.current.name}
+      headerTitle={Context.selected.subject.name}
       searchInput={searchInput}
       setSearchInput={setSearchInput}
       searchInputPlaceholder="Search for a topic"

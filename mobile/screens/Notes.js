@@ -8,7 +8,7 @@ import Input from '../../shared/components/Input';
 import {AppContext} from '../../shared/state';
 
 const NotesScreen = () => {
-  const {subjects, topics, notes} = useContext(AppContext);
+  const Context = useContext(AppContext);
   // State variables
   const [searchInput, setSearchInput] = useState('');
   const [addModalVisible, setAddModalVisible] = useState(false);
@@ -18,12 +18,13 @@ const NotesScreen = () => {
   const [selectedForEdit, setSelectedForEdit] = useState();
 
   useEffect(() => {
-    topics.current &&
-      notes.data &&
+    Context.selected.topic &&
       setDataToRender(
-        notes.data.filter(item => item.topicId === topics.current.id),
+        Context.data.notes.filter(
+          item => item.topicId === Context.selected.topic.id,
+        ),
       );
-  }, [topics.current, notes.data]);
+  }, [Context.data.notes, Context.selected.topic]);
 
   const handleAddButtonPress = () => {
     setSelectedForEdit();
@@ -32,16 +33,16 @@ const NotesScreen = () => {
 
   const handleAddConfirm = () => {
     selectedForEdit
-      ? notes.update({
+      ? Context.updateNote({
           ...selectedForEdit,
           title: addNoteTitleInput,
           note: addNoteNoteInput,
         })
-      : notes.create({
+      : Context.addNote({
           title: addNoteTitleInput,
           note: addNoteNoteInput,
-          subjectId: subjects.current.id,
-          topicId: topics.current.id,
+          subjectId: Context.selected.subject.id,
+          topicId: Context.selected.topic.id,
         });
     handleAddCancel();
   };
@@ -52,7 +53,7 @@ const NotesScreen = () => {
   };
 
   const handleDelete = item => {
-    notes.delete(item);
+    Context.deleteNote(item);
   };
   const handleEdit = item => {
     setSelectedForEdit(item);
@@ -73,7 +74,7 @@ const NotesScreen = () => {
 
   return (
     <ScreenLayout
-      headerTitle={`${subjects.current.name} > ${topics.current.name}`}
+      headerTitle={`${Context.selected.subject.name} > ${Context.selected.topic.name}`}
       searchInput={searchInput}
       setSearchInput={setSearchInput}
       searchInputPlaceholder="Search for a note"
