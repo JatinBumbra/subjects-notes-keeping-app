@@ -18,13 +18,22 @@ const NotesScreen = () => {
   const [selectedForEdit, setSelectedForEdit] = useState();
 
   useEffect(() => {
-    Context.selected.topic &&
+    if (searchInput) {
       setDataToRender(
         Context.data.notes.filter(
-          item => item.topicId === Context.selected.topic.id,
+          note =>
+            note.topicId === Context.selected.topic.id &&
+            note.title.toLowerCase().includes(searchInput.toLowerCase()),
         ),
       );
-  }, [Context.data.notes, Context.selected.topic]);
+    } else {
+      setDataToRender(
+        Context.data.notes.filter(
+          note => note.topicId === Context.selected.topic.id,
+        ),
+      );
+    }
+  }, [searchInput, Context.data, Context.selected.topic]);
 
   const handleAddButtonPress = () => {
     setSelectedForEdit();
@@ -84,7 +93,11 @@ const NotesScreen = () => {
       )}
       addButtonLabel="Add Note"
       addButtonOnPress={handleAddButtonPress}
-      noDataText='Click "Add Note" button to add your first note to the topic'>
+      noDataText={
+        searchInput
+          ? 'No Notes found'
+          : 'Click "Add Note" button to add your first note to the topic'
+      }>
       <AddItemModal
         visible={addModalVisible}
         title={`${selectedForEdit ? 'Edit' : 'Add New'} Note`}

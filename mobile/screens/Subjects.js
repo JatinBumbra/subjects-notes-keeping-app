@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 // Components
 import ScreenLayout from '../components/ScreenLayout';
 import SubjectTopicCard from '../../shared/components/SubjectTopicCard';
@@ -16,6 +16,19 @@ const SubjectsScreen = ({navigation}) => {
   const [addModalVisible, setAddModalVisible] = useState(false);
   const [addSubjectInput, setAddSubjectInput] = useState('');
   const [selectedForEdit, setSelectedForEdit] = useState();
+  const [dataToRender, setDataToRender] = useState([]);
+
+  useEffect(() => {
+    if (searchInput) {
+      setDataToRender(
+        Context.data.subjects.filter(subject =>
+          subject.name.toLowerCase().includes(searchInput.toLowerCase()),
+        ),
+      );
+    } else {
+      setDataToRender(Context.data?.subjects);
+    }
+  }, [searchInput, Context.data]);
 
   const handleCardPress = item => {
     Context.setSelectedSubject(item);
@@ -68,7 +81,7 @@ const SubjectsScreen = ({navigation}) => {
       searchInput={searchInput}
       setSearchInput={setSearchInput}
       searchInputPlaceholder="Search for a subject"
-      renderData={Context.data?.subjects}
+      renderData={dataToRender}
       renderComponent={props => (
         <SubjectTopicCard
           {...props}
@@ -78,7 +91,11 @@ const SubjectsScreen = ({navigation}) => {
       )}
       addButtonLabel="Add Subject"
       addButtonOnPress={handleAddButtonPress}
-      noDataText='Click "Add Subject" button to add your first subject'>
+      noDataText={
+        searchInput
+          ? 'No Subjects found'
+          : 'Click "Add Subject" button to add your first subject'
+      }>
       <AddItemModal
         visible={addModalVisible}
         title={`${selectedForEdit ? 'Edit' : 'Add New'} Subject`}

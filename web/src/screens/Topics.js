@@ -23,12 +23,22 @@ const Topics = ({ history }) => {
     // If someone jumps to the route without selected subject, then go back to subjects screen
     if (!Context.selected.subject) history.push(routes.Subjects);
     // Find the topic related to the selected subject
-    setDataToRender(
-      Context.data?.topics.filter(
-        (topic) => topic.subjectId === Context.selected.subject.id
-      )
-    );
-  }, [Context.data?.topics, Context.selected]);
+    if (searchInput) {
+      setDataToRender(
+        Context.data.topics.filter(
+          (topic) =>
+            topic.subjectId === Context.selected.subject.id &&
+            topic.name.toLowerCase().includes(searchInput.toLowerCase())
+        )
+      );
+    } else {
+      setDataToRender(
+        Context.data.topics.filter(
+          (topic) => topic.subjectId === Context.selected.subject.id
+        )
+      );
+    }
+  }, [searchInput, Context.data, Context.selected]);
 
   const handleCardPress = (item) => {
     Context.setSelectedTopic(item);
@@ -78,7 +88,7 @@ const Topics = ({ history }) => {
 
   return (
     <ScreenLayout
-      headerTitle={Context.selected.subject.name}
+      headerTitle={Context.selected.subject?.name}
       searchInput={searchInput}
       setSearchInput={setSearchInput}
       searchInputPlaceholder='Search for a topic'
@@ -95,7 +105,9 @@ const Topics = ({ history }) => {
         ))
       ) : (
         <NoDataText>
-          Click "Add Topic" button to add your first topic to the subject
+          {searchInput
+            ? 'No Topics found'
+            : 'Click "Add Topic" button to add your first topic to the subject'}
         </NoDataText>
       )}
       {addModalVisible ? (

@@ -19,13 +19,22 @@ const TopicsScreen = ({navigation}) => {
   const [selectedForEdit, setSelectedForEdit] = useState();
 
   useEffect(() => {
-    Context.selected.subject &&
+    if (searchInput) {
       setDataToRender(
         Context.data.topics.filter(
-          item => item.subjectId === Context.selected.subject.id,
+          topic =>
+            topic.subjectId === Context.selected.subject.id &&
+            topic.name.toLowerCase().includes(searchInput.toLowerCase()),
         ),
       );
-  }, [Context.data.topics, Context.selected]);
+    } else {
+      setDataToRender(
+        Context.data.topics.filter(
+          topic => topic.subjectId === Context.selected.subject.id,
+        ),
+      );
+    }
+  }, [searchInput, Context.data.topics, Context.selected]);
 
   const handleCardPress = item => {
     Context.setSelectedTopic(item);
@@ -89,7 +98,11 @@ const TopicsScreen = ({navigation}) => {
       )}
       addButtonLabel="Add Topic"
       addButtonOnPress={handleAddButtonPress}
-      noDataText='Click "Add Topic" button to add your first topic to the subject'>
+      noDataText={
+        searchInput
+          ? 'No Topics found'
+          : 'Click "Add Topic" button to add your first topic to the subject'
+      }>
       <AddItemModal
         visible={addModalVisible}
         title={`${selectedForEdit ? 'Edit' : 'Add New'} Topic`}

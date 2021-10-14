@@ -21,13 +21,24 @@ const Notes = ({ history }) => {
   const [selectedForEdit, setSelectedForEdit] = useState();
 
   useEffect(() => {
-    Context.selected.topic &&
+    if (!Context.selected.topic) history.push(routes.Topics);
+
+    if (searchInput) {
       setDataToRender(
         Context.data.notes.filter(
-          (item) => item.topicId === Context.selected.topic.id
+          (note) =>
+            note.topicId === Context.selected.topic.id &&
+            note.title.toLowerCase().includes(searchInput.toLowerCase())
         )
       );
-  }, [Context.data.notes, Context.selected.topic]);
+    } else {
+      setDataToRender(
+        Context.data.notes.filter(
+          (note) => note.topicId === Context.selected.topic.id
+        )
+      );
+    }
+  }, [searchInput, Context.data.notes, Context.selected.topic]);
 
   const handleAddButtonPress = () => {
     setSelectedForEdit();
@@ -77,7 +88,7 @@ const Notes = ({ history }) => {
 
   return (
     <ScreenLayout
-      headerTitle={`${Context.selected.subject.name} > ${Context.selected.topic.name}`}
+      headerTitle={`${Context.selected.subject?.name} > ${Context.selected.topic?.name}`}
       searchInput={searchInput}
       setSearchInput={setSearchInput}
       searchInputPlaceholder='Search for a note'
@@ -90,7 +101,9 @@ const Notes = ({ history }) => {
         ))
       ) : (
         <NoDataText>
-          Click "Add Note" button to add your first note to the topic
+          {searchInput
+            ? 'No Notes found'
+            : 'Click "Add Note" button to add your first note to the topic'}
         </NoDataText>
       )}
       {addModalVisible ? (
