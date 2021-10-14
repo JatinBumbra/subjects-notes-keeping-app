@@ -2,7 +2,6 @@ import { css } from 'styled-components';
 
 const wrapper = css`
   border-radius: 8px;
-  overflow: hidden;
   margin: 0 2%;
 `;
 

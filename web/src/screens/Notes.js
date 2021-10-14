@@ -20,8 +20,10 @@ const Notes = ({ history }) => {
   const [dataToRender, setDataToRender] = useState();
   const [selectedForEdit, setSelectedForEdit] = useState();
 
+  // This effect runs when context data, selected topic or searchInput change and filters the data to render based on searchInput and selected topic
   useEffect(() => {
-    if (!Context.selected.topic) history.push(routes.Topics);
+    // If someone jumps to the route without selected topic, then go back to topics screen
+    if (!Context.selected.topic) return history.push(routes.Topics);
 
     if (searchInput) {
       setDataToRender(
@@ -38,13 +40,15 @@ const Notes = ({ history }) => {
         )
       );
     }
-  }, [searchInput, Context.data.notes, Context.selected.topic]);
+  }, [searchInput, Context.data, Context.selected.topic]);
 
+  // Handler for the add button at the bottom. Clears the selectedForEdit and opens AddModal
   const handleAddButtonPress = () => {
     setSelectedForEdit();
     setAddModalVisible(true);
   };
 
+  // Called when 'Save' button in pressed in AddModal.
   const handleAddConfirm = () => {
     selectedForEdit
       ? Context.updateNote({
@@ -60,15 +64,18 @@ const Notes = ({ history }) => {
         });
     handleAddCancel();
   };
+  // Called when 'Cancel' is pressed in AddModal. Closes the modal and clear the addNoteTitleInput and addNoteNoteInput
   const handleAddCancel = () => {
     setAddModalVisible(false);
     setAddNoteNoteInput('');
     setAddNoteTitleInput('');
   };
 
+  // Deletes the payload
   const handleDelete = (item) => {
     Context.deleteNote(item);
   };
+  // Sets the selected payload for edit and opens the AddModal in edit mode
   const handleEdit = (item) => {
     setSelectedForEdit(item);
     setAddModalVisible(true);

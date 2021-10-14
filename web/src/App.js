@@ -15,15 +15,17 @@ const firebaseConfig = {
 };
 
 function App() {
+  // Written due to interference between web and mobile instances
+  // If any firebase apps are not open, then create new instance else use it
   if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
   } else {
-    firebase.app(); // if already initialized, use that one
+    firebase.app();
   }
-  const db = firebase.firestore();
+  const db = firebase.firestore().collection('Users').doc('jatinbumbra');
 
   return (
-    <AppState db={db.collection('Users').doc('jatinbumbra')}>
+    <AppState db={db}>
       <GlobalStyle />
       <Screens />
     </AppState>

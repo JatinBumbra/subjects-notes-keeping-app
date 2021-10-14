@@ -35,11 +35,13 @@ const NotesScreen = () => {
     }
   }, [searchInput, Context.data, Context.selected.topic]);
 
+  // Handler for the add button at the bottom. Clears the selectedForEdit and opens AddModal
   const handleAddButtonPress = () => {
     setSelectedForEdit();
     setAddModalVisible(true);
   };
 
+  // Called when 'Save' button in pressed in AddModal.
   const handleAddConfirm = () => {
     selectedForEdit
       ? Context.updateNote({
@@ -55,15 +57,18 @@ const NotesScreen = () => {
         });
     handleAddCancel();
   };
+  // Called when 'Cancel' is pressed in AddModal. Closes the modal and clear the addNoteTitleInput and addNoteNoteInput
   const handleAddCancel = () => {
     setAddModalVisible(false);
     setAddNoteNoteInput('');
     setAddNoteTitleInput('');
   };
 
+  // Deletes the payload
   const handleDelete = item => {
     Context.deleteNote(item);
   };
+  // Sets the selected payload for edit and opens the AddModal in edit mode
   const handleEdit = item => {
     setSelectedForEdit(item);
     setAddModalVisible(true);
