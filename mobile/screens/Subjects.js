@@ -15,6 +15,7 @@ const SubjectsScreen = ({navigation}) => {
   const [searchInput, setSearchInput] = useState('');
   const [addModalVisible, setAddModalVisible] = useState(false);
   const [addSubjectInput, setAddSubjectInput] = useState('');
+  const [addSubjectInputErr, setAddSubjectInputErr] = useState('');
   const [selectedForEdit, setSelectedForEdit] = useState();
   const [dataToRender, setDataToRender] = useState([]);
 
@@ -45,6 +46,10 @@ const SubjectsScreen = ({navigation}) => {
 
   // Called when 'Save' button in pressed in AddModal.
   const handleAddConfirm = () => {
+    if (!addSubjectInput) {
+      return setAddSubjectInputErr('Enter subject name');
+    }
+
     selectedForEdit
       ? Context.updateSubject({
           id: selectedForEdit.id,
@@ -59,6 +64,7 @@ const SubjectsScreen = ({navigation}) => {
   const handleAddCancel = () => {
     setAddModalVisible(false);
     setAddSubjectInput('');
+    setAddSubjectInputErr('');
   };
 
   // Deletes the payload
@@ -111,6 +117,7 @@ const SubjectsScreen = ({navigation}) => {
         <Input
           label="Subject Name"
           value={addSubjectInput}
+          error={addSubjectInputErr}
           onChangeText={setAddSubjectInput}
         />
       </AddItemModal>

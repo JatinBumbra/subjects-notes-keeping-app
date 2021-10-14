@@ -48,7 +48,9 @@ export default ScreenLayout;
 const Wrapper = styled.View`
   flex: 1;
 `;
-const DataList = styled.FlatList``;
+const DataList = styled.FlatList`
+  margin-bottom: 56px;
+`;
 const NoDataWrapper = styled.View`
   margin: 5%;
 `;

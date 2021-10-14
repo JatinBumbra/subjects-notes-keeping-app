@@ -22,7 +22,7 @@ const ScreenLayout = ({
           setSearchInput={setSearchInput}
           searchInputPlaceholder={searchInputPlaceholder}
         />
-        {children}
+        <DataList>{children}</DataList>
         <AddButtonWrapper>
           <Button label={addButtonLabel} onPress={addButtonOnPress} />
         </AddButtonWrapper>
@@ -33,13 +33,39 @@ const ScreenLayout = ({
 
 export default ScreenLayout;
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+  height: 100vh;
+  overflow: hidden;
+`;
 const ContentWrapper = styled.div`
+  height: 100%;
   max-width: 720px;
   margin: auto;
+  display: flex;
+  flex-direction: column;
 `;
 const AddButtonWrapper = styled.div`
   position: absolute;
   right: 16px;
   bottom: 16px;
+`;
+const DataList = styled.div`
+  overflow: hidden;
+  overflow-y: scroll;
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+  height: 100%;
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
 `;

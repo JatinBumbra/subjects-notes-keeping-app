@@ -9,6 +9,7 @@ const pressableWrapper = css`
   padding: 12px 3%;
   display: flex;
   flex-direction: row;
+  align-items: center;
 `;
 const subjectInitialLetterWrapper = css`
   width: 48px;
@@ -23,14 +24,16 @@ const subjectInitialLetter = css`
   color: white;
   font-size: 20px;
   font-weight: 700;
+  text-transform: uppercase;
 `;
 const detailsWrapper = css`
   margin-left: 12px;
 `;
 const subjectName = css`
   color: black;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 600;
+  margin-bottom: 4px;
 `;
 const subjectMetaInfo = css`
   color: black;

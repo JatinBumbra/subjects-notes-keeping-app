@@ -48,6 +48,16 @@ const ContentWrapper = styled.div`
   padding: 1.5rem;
   border-radius: 24px;
   box-shadow: 0px 0px 24px rgba(0, 0, 0, 0.2);
+
+  @media (max-width: 640px) {
+    top: auto;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    transform: none;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
 `;
 const ModalTitle = styled.p`
   font-size: 18px;

@@ -15,8 +15,12 @@ const Notes = ({ history }) => {
   // State variables
   const [searchInput, setSearchInput] = useState('');
   const [addModalVisible, setAddModalVisible] = useState(false);
+
   const [addNoteTitleInput, setAddNoteTitleInput] = useState('');
   const [addNoteNoteInput, setAddNoteNoteInput] = useState('');
+  const [addNoteTitleInputErr, setAddNoteTitleInputErr] = useState('');
+  const [addNoteNoteInputErr, setAddNoteNoteInputErr] = useState('');
+
   const [dataToRender, setDataToRender] = useState();
   const [selectedForEdit, setSelectedForEdit] = useState();
 
@@ -50,6 +54,12 @@ const Notes = ({ history }) => {
 
   // Called when 'Save' button in pressed in AddModal.
   const handleAddConfirm = () => {
+    if (!addNoteTitleInput || !addNoteNoteInput) {
+      !addNoteTitleInput && setAddNoteTitleInputErr('Enter note title');
+      !addNoteNoteInput && setAddNoteNoteInputErr('Enter some note');
+      return;
+    }
+
     selectedForEdit
       ? Context.updateNote({
           ...selectedForEdit,
@@ -69,6 +79,8 @@ const Notes = ({ history }) => {
     setAddModalVisible(false);
     setAddNoteNoteInput('');
     setAddNoteTitleInput('');
+    setAddNoteTitleInputErr('');
+    setAddNoteNoteInputErr('');
   };
 
   // Deletes the payload
@@ -122,11 +134,13 @@ const Notes = ({ history }) => {
           <Input
             label='Title'
             value={addNoteTitleInput}
+            error={addNoteTitleInputErr}
             onChangeText={setAddNoteTitleInput}
           />
           <Input
             label='Note'
             value={addNoteNoteInput}
+            error={addNoteNoteInputErr}
             onChangeText={setAddNoteNoteInput}
           />
         </AddItemModal>

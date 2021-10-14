@@ -10,11 +10,10 @@ const SubjectTopicCard = ({ item, onPress, actionMenuOptions }) => {
     <Wrapper>
       <Pressable android_ripple={android_ripple} onPress={onPress}>
         <SubjectInitialLetterWrapper>
-          <SubjectInitialLetter>C</SubjectInitialLetter>
+          <SubjectInitialLetter>{item.name.slice(0, 1)}</SubjectInitialLetter>
         </SubjectInitialLetterWrapper>
         <DetailsWrapper>
           <SubjectName>{item.name}</SubjectName>
-          <SubjectMetaInfo>4 Topics / 12 Notes</SubjectMetaInfo>
         </DetailsWrapper>
         <ActionMenuForCards item={item} actionMenuOptions={actionMenuOptions} />
       </Pressable>
@@ -42,7 +41,4 @@ const DetailsWrapper = styled.View`
 `;
 const SubjectName = styled.Text`
   ${subjectTopicCardStyles.subjectName}
-`;
-const SubjectMetaInfo = styled.Text`
-  ${subjectTopicCardStyles.subjectMetaInfo}
 `;

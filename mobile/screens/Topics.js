@@ -15,6 +15,7 @@ const TopicsScreen = ({navigation}) => {
   const [searchInput, setSearchInput] = useState('');
   const [addModalVisible, setAddModalVisible] = useState(false);
   const [addTopicInput, setAddTopicInput] = useState('');
+  const [addTopicInputErr, setAddTopicInputErr] = useState('');
   const [dataToRender, setDataToRender] = useState();
   const [selectedForEdit, setSelectedForEdit] = useState();
 
@@ -51,6 +52,10 @@ const TopicsScreen = ({navigation}) => {
 
   // Called when 'Save' button in pressed in AddModal.
   const handleAddConfirm = () => {
+    if (!addTopicInput) {
+      return setAddTopicInputErr('Enter topic name');
+    }
+
     selectedForEdit
       ? Context.updateTopic({
           ...selectedForEdit,
@@ -66,6 +71,7 @@ const TopicsScreen = ({navigation}) => {
   const handleAddCancel = () => {
     setAddModalVisible(false);
     setAddTopicInput('');
+    setAddTopicInputErr('');
   };
 
   // Deletes the payload
@@ -118,6 +124,7 @@ const TopicsScreen = ({navigation}) => {
         <Input
           label="Topic Name"
           value={addTopicInput}
+          error={addTopicInputErr}
           onChangeText={setAddTopicInput}
         />
       </AddItemModal>

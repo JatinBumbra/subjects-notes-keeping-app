@@ -12,8 +12,12 @@ const NotesScreen = () => {
   // State variables
   const [searchInput, setSearchInput] = useState('');
   const [addModalVisible, setAddModalVisible] = useState(false);
+
   const [addNoteTitleInput, setAddNoteTitleInput] = useState('');
   const [addNoteNoteInput, setAddNoteNoteInput] = useState('');
+  const [addNoteTitleInputErr, setAddNoteTitleInputErr] = useState('');
+  const [addNoteNoteInputErr, setAddNoteNoteInputErr] = useState('');
+
   const [dataToRender, setDataToRender] = useState();
   const [selectedForEdit, setSelectedForEdit] = useState();
 
@@ -43,6 +47,12 @@ const NotesScreen = () => {
 
   // Called when 'Save' button in pressed in AddModal.
   const handleAddConfirm = () => {
+    if (!addNoteTitleInput || !addNoteNoteInput) {
+      !addNoteTitleInput && setAddNoteTitleInputErr('Enter note title');
+      !addNoteNoteInput && setAddNoteNoteInputErr('Enter some note');
+      return;
+    }
+
     selectedForEdit
       ? Context.updateNote({
           ...selectedForEdit,
@@ -62,6 +72,8 @@ const NotesScreen = () => {
     setAddModalVisible(false);
     setAddNoteNoteInput('');
     setAddNoteTitleInput('');
+    setAddNoteTitleInputErr('');
+    setAddNoteNoteInputErr('');
   };
 
   // Deletes the payload
@@ -111,11 +123,13 @@ const NotesScreen = () => {
         <Input
           label="Title"
           value={addNoteTitleInput}
+          error={addNoteTitleInputErr}
           onChangeText={setAddNoteTitleInput}
         />
         <Input
           label="Note"
           value={addNoteNoteInput}
+          error={addNoteNoteInputErr}
           onChangeText={setAddNoteNoteInput}
         />
       </AddItemModal>

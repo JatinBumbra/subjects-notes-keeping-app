@@ -7,11 +7,10 @@ const SubjectTopicCard = ({ item, onPress, actionMenuOptions }) => {
   return (
     <Wrapper>
       <SubjectInitialLetterWrapper>
-        <SubjectInitialLetter>C</SubjectInitialLetter>
+        <SubjectInitialLetter>{item.name.slice(0, 1)}</SubjectInitialLetter>
       </SubjectInitialLetterWrapper>
       <DetailsWrapper onClick={onPress}>
         <SubjectName>{item.name}</SubjectName>
-        <SubjectMetaInfo>4 Topics / 12 Notes</SubjectMetaInfo>
       </DetailsWrapper>
       <ActionMenuForCards item={item} actionMenuOptions={actionMenuOptions} />
     </Wrapper>
@@ -38,7 +37,4 @@ const DetailsWrapper = styled.div`
 `;
 const SubjectName = styled.p`
   ${subjectTopicCardStyles.subjectName}
-`;
-const SubjectMetaInfo = styled.p`
-  ${subjectTopicCardStyles.subjectMetaInfo}
 `;

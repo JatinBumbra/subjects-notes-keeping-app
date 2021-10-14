@@ -31,4 +31,6 @@ const TextInput = styled.input`
 `;
 const Error = styled.p`
   ${inputStyles.error}
+  font-size: 13px;
+  margin-top: -4px;
 `;
