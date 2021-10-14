@@ -1,13 +1,14 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled from 'styled-components/native';
 
 const Searchbar = ({ searchInput, setSearchInput, searchInputPlaceholder }) => {
   return (
     <InputWrapper>
       <SearchInput
         value={searchInput}
-        onChange={(e) => setSearchInput(e.target.value)}
+        onChangeText={setSearchInput}
         placeholder={searchInputPlaceholder}
+        placeholderTextColor={'rgba(0,0,0,0.4)'}
       />
     </InputWrapper>
   );
@@ -15,13 +16,13 @@ const Searchbar = ({ searchInput, setSearchInput, searchInputPlaceholder }) => {
 
 export default Searchbar;
 
-const InputWrapper = styled.div`
+const InputWrapper = styled.View`
   margin: 8px 5% 16px;
   background-color: rgba(0, 0, 0, 0.07);
   padding: 6px 16px;
   border-radius: 999px;
 `;
-const SearchInput = styled.input`
+const SearchInput = styled.TextInput`
   padding: 0;
   color: black;
   font-size: 16px;

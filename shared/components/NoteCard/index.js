@@ -1,17 +1,11 @@
 import React, { useState, Fragment } from 'react';
-import styled from 'styled-components/native';
+import styled from 'styled-components';
 import noteCardStyles from './styles';
 import VertDotsIcon from '../../../shared/assets/icons/outline_more_vert_black_24dp.png';
 
 const NoteCard = ({ item, actionMenuOptions }) => {
   const [actionMenuOpen, setActionMenuOpen] = useState(false);
 
-  const android_ripple = { color: 'rgba(0,0,0,0.1)' };
-  const icon_ripple = {
-    color: 'rgba(0,0,0,0.1)',
-    borderless: true,
-    radius: 24,
-  };
   const handleOptionPress = (onPress) => {
     setActionMenuOpen(false);
     onPress(item);
@@ -24,19 +18,16 @@ const NoteCard = ({ item, actionMenuOptions }) => {
       {actionMenuOptions ? (
         <Fragment>
           <ActionMenuPressable
-            hitSlop={48}
-            android_ripple={icon_ripple}
-            onPress={() => setActionMenuOpen((prev) => !prev)}
+            onClick={() => setActionMenuOpen((prev) => !prev)}
           >
-            <ActionMenuIcon source={VertDotsIcon} />
+            <ActionMenuIcon src={VertDotsIcon} />
           </ActionMenuPressable>
           {actionMenuOpen ? (
             <ActionMenuOptions>
               {actionMenuOptions.map((option, index) => (
                 <ActionMenuOptionPressable
                   key={index}
-                  android_ripple={android_ripple}
-                  onPress={() => handleOptionPress(option.onPress)}
+                  onClick={() => handleOptionPress(option.onPress)}
                 >
                   <ActionMenuOptionText>{option.label}</ActionMenuOptionText>
                 </ActionMenuOptionPressable>
@@ -51,38 +42,41 @@ const NoteCard = ({ item, actionMenuOptions }) => {
 
 export default NoteCard;
 
-const Wrapper = styled.View`
+const Wrapper = styled.div`
   ${noteCardStyles.wrapper}
+  position: relative;
 `;
-const Title = styled.Text`
+const Title = styled.p`
   ${noteCardStyles.title}
 `;
-const Note = styled.Text`
+const Note = styled.p`
   ${noteCardStyles.note}
 `;
-const ActionMenuPressable = styled.Pressable`
+const ActionMenuPressable = styled.div`
   position: absolute;
   right: 2%;
   top: 24px;
+  cursor: pointer;
 `;
-const ActionMenuIcon = styled.Image`
+const ActionMenuIcon = styled.img`
   width: 24px;
   height: 24px;
   opacity: 0.5;
 `;
-const ActionMenuOptions = styled.View`
+const ActionMenuOptions = styled.div`
   background-color: white;
-  elevation: 8;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   width: 100px;
   position: absolute;
-  right: 10%;
+  right: 6%;
   top: 8px;
   overflow: hidden;
 `;
-const ActionMenuOptionPressable = styled.Pressable`
+const ActionMenuOptionPressable = styled.div`
   padding: 4px 10px;
+  cursor: pointer;
 `;
-const ActionMenuOptionText = styled.Text`
+const ActionMenuOptionText = styled.p`
   color: black;
 `;
