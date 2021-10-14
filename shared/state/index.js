@@ -43,9 +43,25 @@ const AppState = ({ children, db }) => {
   };
 
   const deleteItem = async (payload, type) => {
-    await db.update({
+    const newData = {
       [type]: userData[type].filter((item) => item.id !== payload.id),
-    });
+    };
+    // If type is topic, then we remove the notes related to it
+    if (type === 'topics') {
+      newData.notes = userData.notes.filter(
+        (note) => note.topicId !== payload.id
+      );
+    }
+    // If type is subject, then we remove the topics and notes related to it
+    if (type === 'subjects') {
+      newData.notes = userData.notes.filter(
+        (note) => note.subjectId !== payload.id
+      );
+      newData.topics = userData.topics.filter(
+        (topic) => topic.subjectId !== payload.id
+      );
+    }
+    await db.update(newData);
   };
 
   return (
