@@ -4,6 +4,8 @@ import React, { createContext, useState, useEffect } from 'react';
 
 export const AppContext = createContext();
 
+// This AppState works as a single source of truth to the entire application data. All data operations take place here.
+// Receives the differenct db instances of the firebase from mobile and web projects.
 const AppState = ({ children, db }) => {
   const [userData, setUserData] = useState();
   const [selected, setSelected] = useState({
@@ -13,6 +15,7 @@ const AppState = ({ children, db }) => {
   });
 
   useEffect(() => {
+    // Listen to realtime changes in database
     const unsubscribe = db.onSnapshot((docSnap) => {
       if (!docSnap.data()) {
         db.set({
@@ -24,9 +27,12 @@ const AppState = ({ children, db }) => {
         setUserData(docSnap.data());
       }
     });
+    // Unsubscribe from the database instance on unmount
     return unsubscribe;
   }, []);
 
+  // Standalone functions to perform all the CRUD for different keys in the doc
+  // Receives the 'payload' to be added to the 'type' which is a key in the doc object
   const addItem = async (payload, type) => {
     payload.id = nanoid();
     await db.update({
@@ -68,6 +74,7 @@ const AppState = ({ children, db }) => {
     <AppContext.Provider
       value={{
         data: userData,
+        // TAKE SPECIAL CARE WHILE PASSING THE 'TYPE'. MAKE SURE IT'S A VALID KEY AND THE ONE INTENDED TO BE TARGETTED
         addSubject: (payload) => addItem(payload, 'subjects'),
         addTopic: (payload) => addItem(payload, 'topics'),
         addNote: (payload) => addItem(payload, 'notes'),
